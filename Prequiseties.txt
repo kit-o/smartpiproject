@@ -1,0 +1,7 @@
+Please install espeak to your system.
+Python 3.9 or higher.
+May need to be run in a virtual python enviroment.
+How to:
+	python3 -m venv ~/.venv
+	source ~/.venv/bin/activate
+
