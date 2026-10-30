@@ -27,7 +27,7 @@ Install Raspberry Pi OS (Debian).
 Once it is installed, boot your Raspberry Pi.
 Ctrl + Alt + T
 ```
-git pull https://github.com/kit-o/smartproject.git
+git clone https://github.com/kit-o/smartproject.git
 cd smartpiproject
 sudo apt install portaudio19-dev python3-dev libasound-dev espeak espeak
 python3 -m venv ./.venv/
