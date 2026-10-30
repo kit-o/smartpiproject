@@ -29,5 +29,6 @@ sudo apt install portaudio19-dev python3-dev libasound-dev espeak espeak
 python3 -m venv ./.venv/
 pip install -r requirements.txt
 source ./.venv/bin/activate
+python3 speak.py
 ```
 NOTE: YOU MAY NEED TO INSTALL SPECIFIC THINGS TO YOUR RASPIOS. I WILL MAKE A LIST SOON.
