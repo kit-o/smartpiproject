@@ -1,4 +1,8 @@
 # smartpiproject
+
+## Disclaimer:
+Use this software at your own risk. The developers of this software accept no responsibility for any problems caused by the use of this software. It is provided as is, and is not intended to be used in a production environment. By installing and using this software, you accept all risks associated with the software.
+
 ## How to download:
 ### A. Go to releases, then download the newest version.
 ### B. Use this code in the terminal with git.
