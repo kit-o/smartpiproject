@@ -1,30 +1,20 @@
 # pip install SpeechRecognition pyaudio
 import speech_recognition as sr
 import time
-import threading
+from os import system as s
+from libfile import *
 r = sr.Recognizer()
-timeisupforspeech = False
-with sr.Microphone() as source:
-    audio = r.listen(source)
-def scream():
-    pass
- #   print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*20)
-def countd():
-    time.sleep(30)
-    timeisupforspeech = True
-try:
+print('running init')
+init()
+while True:
+    with sr.Microphone() as source:
+        audio = r.listen(source)
+    try:
  
-    text = r.recognize_google(audio)
-    if text == "smart pi":
-        timer = threading.Thread(target=countd,dameon=True)
-        timer.start()
-        while not timeisupforspeech:
-            command = r.recognize_google(audio)
-            try:
-                exec(f"{command}()")
-            except:
-                print("I don't understand.")
-        timeisupforspeech = False
-       
-except sr.UnknownValueError:
-    print("Please repeat that")
+        text = r.recognize_google(audio)
+#        try:
+        exec(f"{text.lower()}()")
+#        except:
+#            print("I do not understand!")
+    except sr.UnknownValueError:
+        print("Please repeat that")

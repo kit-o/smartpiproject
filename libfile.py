@@ -5,11 +5,20 @@ import time
 from os import system as s
 from bs4 import BeautifulSoup
 from math import *
+import speech_recognition as sr
 import sys
 s('clear')
 stopdrop = []
 engine = tts.init()
 
+r=sr.Recognizer()
+
+r.pause_threshold = 2
+
+print("wait....")
+def init():
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source, duration=5)
 def weather():
     raw = requests.get("https://api.weather.gov/stations/klaf/observations/latest")
     if raw.status_code == 200:
@@ -30,10 +39,10 @@ def weather():
     s('espeak -a 1000 '+f"'{ftemp} degrees fair-in-height'")
     
     print(f"{temp}°C")
-    s('espeak -a 1000 '+f"'{temp} degrees Celcius'")
+    s('espeak -a 1000 '+f"'{temp} degrees Cell-c-us'")
     
     print(f"The weather is desrcibed as: {scribe}.")
-    s('espeak -a 1000 '+f"'The weather is described as: {scribe}.'")
+    s('espeak -a 1000 '+f"'The weather is {scribe}.'")
     
 def google():
     headers = {
@@ -46,10 +55,33 @@ def google():
     s('espeak -a 1000 '+"'Please type your search term.'")
     
     requests.get("https://lite.duckduckgo.com/")
-    html = requests.post("https://lite.duckduckgo.com/lite",data={"q":input("Search Term: ")},headers=headers)
+    
+#    while True:
+#        with sr.Microphone() as source:
+#            audio=r.listen(source)
+#        try:
+#
+#            term=term+" "+r.recognize_google(audio)
+#            if term[len(term)-2] == "g" and term[len(term)-1] == "o":
+#                break
+#        except:
+#            print("didn't catch last term update")
+#    
+    
 
-
-
+    with sr.Microphone() as source:
+        audio=r.listen(source)
+    print("beep 1")
+    try:
+        print("beep 1.5")
+        term = r.recognize_google(audio)
+        print("beep 2")
+    except sr.UnknownValueError:
+        print("I don't understand...")
+        return 0
+    
+    html = requests.post("https://lite.duckduckgo.com/lite",data={"q":term},headers=headers)
+    
     sup = BeautifulSoup(html.text,"html.parser")
     elements = sup.find_all("a",class_="result-link")
     elements2 = sup.find_all("td",class_="result-snippet")
@@ -58,10 +90,13 @@ def google():
         file.write(html.text)
     # print(elements)
     # print(html.text)
-
-    first_result = elements[0]
+    try:
+        first_result = elements[0]
+    except:
+        s('espeak -a 1000 "Search is un-a-vay-uh-ble right now."')
+        return 0
     print("First Result: ")
-    s('espeak -a 1000 '+"'First Result'")
+    s('espeak -a 1000 '+"'First Result for "+term+"'")
     
     print(elements[0].text)
     s('espeak -a 1000 "'+elements[0].text+'"')
